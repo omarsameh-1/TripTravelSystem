@@ -1,0 +1,74 @@
+CREATE TABLE [dbo].[RoleType] (
+    [roleID]   INT           IDENTITY (1, 1) NOT NULL,
+    [roleName] NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([roleID] ASC)
+);
+
+CREATE TABLE [dbo].[Users] (
+    [userID]          INT              IDENTITY (1, 1) NOT NULL,
+    [firstName]       NVARCHAR (50)    NOT NULL,
+    [lastName]        NVARCHAR (50)    NOT NULL,
+    [email]           NVARCHAR (50)    NOT NULL,
+    [photo]           NVARCHAR (200)   NOT NULL,
+    [roleTypeID]      INT              NOT NULL,
+    [password]        NVARCHAR (MAX)   NOT NULL,
+    [isEmailVerified] BIT              NOT NULL,
+    [ActivationCode]  UNIQUEIDENTIFIER NOT NULL,
+    PRIMARY KEY CLUSTERED ([userID] ASC),
+    CONSTRAINT [FK_dbo.Users_dbo.RoleType_roleID] FOREIGN KEY ([roleTypeID]) REFERENCES [dbo].[RoleType] ([roleID]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE [dbo].[Posts] (
+    [postID]           INT            IDENTITY (1, 1) NOT NULL,
+    [tripTitle]        NVARCHAR (50)  NOT NULL,
+    [tripDate]         DATE           NOT NULL,
+    [tripImage]        NVARCHAR (200) NOT NULL,
+    [tripDescription]  NVARCHAR (500) NOT NULL,
+    [tripPrice]        NVARCHAR (50)  NOT NULL,
+    [postDate]         DATE           NOT NULL,
+    [uID]              INT            NOT NULL,
+    [numberOfLikes]    INT            DEFAULT ((0)) NULL,
+    [numberOfDisLikes] INT            DEFAULT ((0)) NULL,
+    PRIMARY KEY CLUSTERED ([postID] ASC),
+    CONSTRAINT [FK_Posts_Users] FOREIGN KEY ([uID]) REFERENCES [dbo].[Users] ([userID]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE [dbo].[Questions] (
+    [qID]          INT           NOT NULL,
+    [question]     NVARCHAR (50) NOT NULL,
+    [answer]       NVARCHAR (50) NOT NULL,
+    [questionDate] DATE          NOT NULL,
+    [UID]          INT           NOT NULL,
+    [agencyID]     INT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([qID] ASC),
+    CONSTRAINT [FK_Questions2_Users] FOREIGN KEY ([agencyID]) REFERENCES [dbo].[Users] ([userID]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_Questions_Users] FOREIGN KEY ([UID]) REFERENCES [dbo].[Users] ([userID])
+);
+
+CREATE TABLE [dbo].[LikeDislike] (
+    [USERid] INT           NOT NULL,
+    [POSTid] INT           NOT NULL,
+    [isLike] NVARCHAR (50) NOT NULL,
+    PRIMARY KEY CLUSTERED ([USERid] ASC, [POSTid] ASC),
+    CONSTRAINT [FK_LikeDislike_Posts] FOREIGN KEY ([POSTid]) REFERENCES [dbo].[Posts] ([postID]),
+    CONSTRAINT [FK_LikeDislike_Users] FOREIGN KEY ([USERid]) REFERENCES [dbo].[Users] ([userID]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE [dbo].[SavedPosts] (
+    [USERid] INT NOT NULL,
+    [POSTid] INT NOT NULL,
+    [saved]  BIT DEFAULT ((1)) NULL,
+    PRIMARY KEY CLUSTERED ([USERid] ASC, [POSTid] ASC),
+    CONSTRAINT [FK_SavedPosts_Posts] FOREIGN KEY ([POSTid]) REFERENCES [dbo].[Posts] ([postID]),
+    CONSTRAINT [FK_SavedPosts_Users] FOREIGN KEY ([USERid]) REFERENCES [dbo].[Users] ([userID]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE [dbo].[PostsRequests] (
+    [USERid] INT NOT NULL,
+    [POSTid] INT NOT NULL,
+    [status] BIT NOT NULL,
+    PRIMARY KEY CLUSTERED ([USERid] ASC, [POSTid] ASC),
+    CONSTRAINT [FK_PostsRequests_Posts] FOREIGN KEY ([POSTid]) REFERENCES [dbo].[Posts] ([postID]),
+    CONSTRAINT [FK_PostsRequests_Users] FOREIGN KEY ([USERid]) REFERENCES [dbo].[Users] ([userID]) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
