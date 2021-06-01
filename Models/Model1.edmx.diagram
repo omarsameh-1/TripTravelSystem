@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e6e16d75e5f7456284e8b12d586603a1" Name="Diagram1">
+        <EntityTypeShape EntityType="TripsTravel_DBModel.LikeDislike" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.Post" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.PostsRequest" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.Question" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.RoleType" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.SavedPost" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.User" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_LikeDislike_Posts" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_LikeDislike_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_Posts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_PostsRequests_Posts" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_SavedPosts_Posts" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_PostsRequests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions2_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_dbo_Users_dbo_RoleType_roleID" ManuallyRouted="false" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_SavedPosts_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

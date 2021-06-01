@@ -1,0 +1,650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TripsTravel_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LikeDislike">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="int" Nullable="false" />
+          <Property Name="POSTid" Type="int" Nullable="false" />
+          <Property Name="isLike" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Posts">
+          <Key>
+            <PropertyRef Name="postID" />
+          </Key>
+          <Property Name="postID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tripTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tripDate" Type="date" Nullable="false" />
+          <Property Name="tripImage" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="tripDescription" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="tripPrice" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="postDate" Type="date" Nullable="false" />
+          <Property Name="uID" Type="int" Nullable="false" />
+          <Property Name="numberOfLikes" Type="int" />
+          <Property Name="numberOfDisLikes" Type="int" />
+        </EntityType>
+        <EntityType Name="PostsRequests">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="int" Nullable="false" />
+          <Property Name="POSTid" Type="int" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Questions">
+          <Key>
+            <PropertyRef Name="qID" />
+          </Key>
+          <Property Name="qID" Type="int" Nullable="false" />
+          <Property Name="question" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="answer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="questionDate" Type="date" Nullable="false" />
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="agencyID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleType">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SavedPosts">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="int" Nullable="false" />
+          <Property Name="POSTid" Type="int" Nullable="false" />
+          <Property Name="saved" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="photo" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="roleTypeID" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="isEmailVerified" Type="bit" Nullable="false" />
+          <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_Users_dbo_RoleType_roleID">
+          <End Role="RoleType" Type="Self.RoleType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleType">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="roleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="Self.Posts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="uID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsRequests_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="PostsRequests" Type="Self.PostsRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostsRequests">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsRequests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PostsRequests" Type="Self.PostsRequests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="PostsRequests">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions2_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="agencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavedPosts_Posts">
+          <End Role="Posts" Type="Self.Posts" Multiplicity="1" />
+          <End Role="SavedPosts" Type="Self.SavedPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="SavedPosts">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavedPosts_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SavedPosts" Type="Self.SavedPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="SavedPosts">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TripsTravel_DBModelStoreContainer">
+          <EntitySet Name="LikeDislike" EntityType="Self.LikeDislike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Posts" EntityType="Self.Posts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PostsRequests" EntityType="Self.PostsRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleType" EntityType="Self.RoleType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SavedPosts" EntityType="Self.SavedPosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Users_dbo_RoleType_roleID" Association="Self.FK_dbo_Users_dbo_RoleType_roleID">
+            <End Role="RoleType" EntitySet="RoleType" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_Posts" Association="Self.FK_LikeDislike_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="LikeDislike" EntitySet="LikeDislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_Users" Association="Self.FK_LikeDislike_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LikeDislike" EntitySet="LikeDislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="Self.FK_Posts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsRequests_Posts" Association="Self.FK_PostsRequests_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="PostsRequests" EntitySet="PostsRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsRequests_Users" Association="Self.FK_PostsRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PostsRequests" EntitySet="PostsRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_Users" Association="Self.FK_Questions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions2_Users" Association="Self.FK_Questions2_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavedPosts_Posts" Association="Self.FK_SavedPosts_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="SavedPosts" EntitySet="SavedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavedPosts_Users" Association="Self.FK_SavedPosts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SavedPosts" EntitySet="SavedPosts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TripsTravel_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LikeDislike">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="Int32" Nullable="false" />
+          <Property Name="POSTid" Type="Int32" Nullable="false" />
+          <Property Name="isLike" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_LikeDislike_Posts" FromRole="LikeDislike" ToRole="Posts" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LikeDislike_Users" FromRole="LikeDislike" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Post">
+          <Key>
+            <PropertyRef Name="postID" />
+          </Key>
+          <Property Name="postID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tripTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tripDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tripImage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tripDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tripPrice" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="postDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="uID" Type="Int32" Nullable="false" />
+          <Property Name="numberOfLikes" Type="Int32" />
+          <Property Name="numberOfDisLikes" Type="Int32" />
+          <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_Posts" FromRole="Posts" ToRole="LikeDislike" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Posts_Users" FromRole="Posts" ToRole="Users" />
+          <NavigationProperty Name="PostsRequests" Relationship="Self.FK_PostsRequests_Posts" FromRole="Posts" ToRole="PostsRequests" />
+          <NavigationProperty Name="SavedPosts" Relationship="Self.FK_SavedPosts_Posts" FromRole="Posts" ToRole="SavedPosts" />
+        </EntityType>
+        <EntityType Name="PostsRequest">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="Int32" Nullable="false" />
+          <Property Name="POSTid" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_PostsRequests_Posts" FromRole="PostsRequests" ToRole="Posts" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PostsRequests_Users" FromRole="PostsRequests" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="qID" />
+          </Key>
+          <Property Name="qID" Type="Int32" Nullable="false" />
+          <Property Name="question1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="questionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="agencyID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Questions_Users" FromRole="Questions" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Questions2_Users" FromRole="Questions" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="RoleType">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_dbo_Users_dbo_RoleType_roleID" FromRole="RoleType" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="SavedPost">
+          <Key>
+            <PropertyRef Name="USERid" />
+            <PropertyRef Name="POSTid" />
+          </Key>
+          <Property Name="USERid" Type="Int32" Nullable="false" />
+          <Property Name="POSTid" Type="Int32" Nullable="false" />
+          <Property Name="saved" Type="Boolean" />
+          <NavigationProperty Name="Post" Relationship="Self.FK_SavedPosts_Posts" FromRole="SavedPosts" ToRole="Posts" />
+          <NavigationProperty Name="User" Relationship="Self.FK_SavedPosts_Users" FromRole="SavedPosts" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="roleTypeID" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isEmailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_Users" FromRole="Users" ToRole="LikeDislike" />
+          <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Users" FromRole="Users" ToRole="Posts" />
+          <NavigationProperty Name="PostsRequests" Relationship="Self.FK_PostsRequests_Users" FromRole="Users" ToRole="PostsRequests" />
+          <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Users" FromRole="Users" ToRole="Questions" />
+          <NavigationProperty Name="Questions1" Relationship="Self.FK_Questions2_Users" FromRole="Users" ToRole="Questions" />
+          <NavigationProperty Name="RoleType" Relationship="Self.FK_dbo_Users_dbo_RoleType_roleID" FromRole="Users" ToRole="RoleType" />
+          <NavigationProperty Name="SavedPosts" Relationship="Self.FK_SavedPosts_Users" FromRole="Users" ToRole="SavedPosts" />
+        </EntityType>
+        <Association Name="FK_LikeDislike_Posts">
+          <End Role="Posts" Type="Self.Post" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Posts_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Posts" Type="Self.Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Posts">
+              <PropertyRef Name="uID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsRequests_Posts">
+          <End Role="Posts" Type="Self.Post" Multiplicity="1" />
+          <End Role="PostsRequests" Type="Self.PostsRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="PostsRequests">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavedPosts_Posts">
+          <End Role="Posts" Type="Self.Post" Multiplicity="1" />
+          <End Role="SavedPosts" Type="Self.SavedPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Posts">
+              <PropertyRef Name="postID" />
+            </Principal>
+            <Dependent Role="SavedPosts">
+              <PropertyRef Name="POSTid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PostsRequests_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PostsRequests" Type="Self.PostsRequest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="PostsRequests">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions2_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Questions">
+              <PropertyRef Name="agencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Users_dbo_RoleType_roleID">
+          <End Role="RoleType" Type="Self.RoleType" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleType">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="roleTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SavedPosts_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SavedPosts" Type="Self.SavedPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="SavedPosts">
+              <PropertyRef Name="USERid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TripsTravel_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LikeDislikes" EntityType="Self.LikeDislike" />
+          <EntitySet Name="Posts" EntityType="Self.Post" />
+          <EntitySet Name="PostsRequests" EntityType="Self.PostsRequest" />
+          <EntitySet Name="Questions" EntityType="Self.Question" />
+          <EntitySet Name="RoleTypes" EntityType="Self.RoleType" />
+          <EntitySet Name="SavedPosts" EntityType="Self.SavedPost" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_LikeDislike_Posts" Association="Self.FK_LikeDislike_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="LikeDislike" EntitySet="LikeDislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_Users" Association="Self.FK_LikeDislike_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="LikeDislike" EntitySet="LikeDislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Posts_Users" Association="Self.FK_Posts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Posts" EntitySet="Posts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsRequests_Posts" Association="Self.FK_PostsRequests_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="PostsRequests" EntitySet="PostsRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavedPosts_Posts" Association="Self.FK_SavedPosts_Posts">
+            <End Role="Posts" EntitySet="Posts" />
+            <End Role="SavedPosts" EntitySet="SavedPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PostsRequests_Users" Association="Self.FK_PostsRequests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PostsRequests" EntitySet="PostsRequests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions_Users" Association="Self.FK_Questions_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions2_Users" Association="Self.FK_Questions2_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Questions" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Users_dbo_RoleType_roleID" Association="Self.FK_dbo_Users_dbo_RoleType_roleID">
+            <End Role="RoleType" EntitySet="RoleTypes" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SavedPosts_Users" Association="Self.FK_SavedPosts_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="SavedPosts" EntitySet="SavedPosts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TripsTravel_DBModelStoreContainer" CdmEntityContainer="TripsTravel_DBEntities">
+          <EntitySetMapping Name="LikeDislikes">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.LikeDislike">
+              <MappingFragment StoreEntitySet="LikeDislike">
+                <ScalarProperty Name="USERid" ColumnName="USERid" />
+                <ScalarProperty Name="POSTid" ColumnName="POSTid" />
+                <ScalarProperty Name="isLike" ColumnName="isLike" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Posts">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.Post">
+              <MappingFragment StoreEntitySet="Posts">
+                <ScalarProperty Name="postID" ColumnName="postID" />
+                <ScalarProperty Name="tripTitle" ColumnName="tripTitle" />
+                <ScalarProperty Name="tripDate" ColumnName="tripDate" />
+                <ScalarProperty Name="tripImage" ColumnName="tripImage" />
+                <ScalarProperty Name="tripDescription" ColumnName="tripDescription" />
+                <ScalarProperty Name="tripPrice" ColumnName="tripPrice" />
+                <ScalarProperty Name="postDate" ColumnName="postDate" />
+                <ScalarProperty Name="uID" ColumnName="uID" />
+                <ScalarProperty Name="numberOfLikes" ColumnName="numberOfLikes" />
+                <ScalarProperty Name="numberOfDisLikes" ColumnName="numberOfDisLikes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PostsRequests">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.PostsRequest">
+              <MappingFragment StoreEntitySet="PostsRequests">
+                <ScalarProperty Name="USERid" ColumnName="USERid" />
+                <ScalarProperty Name="POSTid" ColumnName="POSTid" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="qID" ColumnName="qID" />
+                <ScalarProperty Name="question1" ColumnName="question" />
+                <ScalarProperty Name="answer" ColumnName="answer" />
+                <ScalarProperty Name="questionDate" ColumnName="questionDate" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="agencyID" ColumnName="agencyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleTypes">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.RoleType">
+              <MappingFragment StoreEntitySet="RoleType">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SavedPosts">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.SavedPost">
+              <MappingFragment StoreEntitySet="SavedPosts">
+                <ScalarProperty Name="USERid" ColumnName="USERid" />
+                <ScalarProperty Name="POSTid" ColumnName="POSTid" />
+                <ScalarProperty Name="saved" ColumnName="saved" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="roleTypeID" ColumnName="roleTypeID" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="isEmailVerified" ColumnName="isEmailVerified" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

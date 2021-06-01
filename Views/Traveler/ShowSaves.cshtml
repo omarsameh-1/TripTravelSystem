@@ -1,0 +1,71 @@
+﻿@model IEnumerable<TripTravelSystem.Models.SavedPost>
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_LayoutWall.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    <div class="container mt-5 mb-5">
+        <div class="row d-flex align-items-center justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="d-flex justify-content-between p-2 px-3">
+                        <div class="d-flex flex-row align-items-center">
+                            <img src="@Url.Content(item.User.photo)" width="50"
+                                 class="rounded-circle">
+                            <div class="d-flex flex-column ml-2">
+                                <span class="font-weight-bold">@Html.DisplayFor(modelItem => item.User.firstName)</span> <small class="text-primary">@Html.DisplayFor(modelItem => item.Post.tripTitle)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="@Url.Content(item.Post.tripImage)" class="img-fluid" width="400px" height="400px">
+                    <div class="p-2">
+
+                        <p class="text-justify">
+
+                            @Html.DisplayFor(modelItem => item.Post.tripDescription)
+                            <ul>
+                                <li>
+                                    <u><i>Place : @Html.DisplayFor(modelItem => item.Post.tripTitle)</i></u>
+                                </li>
+                                <li>
+                                    <u><i>Price : @Html.DisplayFor(modelItem => item.Post.tripPrice)</i></u>
+                                </li>
+                                <li>
+                                    <u><i>Date : @Html.DisplayFor(modelItem => item.Post.tripDate)</i></u>
+                                </li>
+                            </ul>
+                        </p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-row d-flex align-items-center">
+                                <i style="margin-right:20px">@Html.DisplayFor(modelItem => item.Post.numberOfLikes)</i> <i>@Html.DisplayFor(modelItem => item.Post.numberOfDisLikes)</i>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-row icons d-flex align-items-center">
+                                <i class="far fa-thumbs-up" style="margin-right:5px"> </i>
+                                <i class="far fa-thumbs-down" style="margin-right:360px"></i>
+                                <i>
+                                    @using TripTravelSystem.Models
+                                    @using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
+                                    {
+                                        var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                                        @Html.ActionLink(" ", "DeleteSaves", new { userid = v.userID, postid = item.Post.postID }, new { @class = "fas fa-minus-circle" })
+                                    }
+                                </i>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
