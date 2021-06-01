@@ -21,6 +21,7 @@
 
 </head>
 <body>
+     
     <!--Start Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Wall Page</a>
@@ -31,18 +32,31 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                @if (User.Identity.IsAuthenticated)
+                @using TripTravelSystem.Models
+                @using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
                 {
-                    if (User.IsInRole("Traveler"))
+                    if (User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item active">@Html.ActionLink("Home", "Index", "Traveler", new { area = "" }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
-                        <li class="nav-item">@Html.ActionLink("Saves", "showSaves", "Traveler", new { area = "" }, new { @class = "nav-link" })</li>
+                        if (User.IsInRole("Traveler"))
+                        {
 
+                            <li class="nav-item active">@Html.ActionLink("Home", "Index", "Traveler", new { area = "" }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
+
+
+                            {
+                                var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                                if (v != null)
+                                {
+
+                                    <li class="nav-item">@Html.ActionLink("Saves", "showSaves", "Traveler", new { userid = v.userID }, new { @class = "nav-link" })</li>
+                                    }
+                                }
+                            }
+
+                        }
                     }
-
-                }
-            </ul>
-
+                </ul>
+            }
             <!--SIGN UP & LOGIN-->
             <div class="my-2 my-lg-0">
                 <!--FILTER-->

@@ -56,10 +56,10 @@ namespace TripTravelSystem.Controllers
 
         //show saves
         [Authorize(Roles = "Traveler")]
-        public ActionResult ShowSaves()
+        public ActionResult ShowSaves(int? userid)
         {
-            var savedPosts = db.SavedPosts.Include(s => s.Post).Include(s => s.User);
-            return View(savedPosts.ToList());
+                var v = db.SavedPosts.Where(a => (a.USERid == userid));
+                return View(v.ToList()); 
         }
 
         //delete a save

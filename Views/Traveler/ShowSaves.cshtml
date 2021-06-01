@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutWall.cshtml";
 }
 
-@foreach (var item in Model)
+@foreach (var item in Model.ToList())
 {
     <div class="container mt-5 mb-5">
         <div class="row d-flex align-items-center justify-content-center">
@@ -53,7 +53,10 @@
                                     @using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
                                     {
                                         var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                                        if (v != null)
+                                        {
                                         @Html.ActionLink(" ", "DeleteSaves", new { userid = v.userID, postid = item.Post.postID }, new { @class = "fas fa-minus-circle" })
+                                        }
                                     }
                                 </i>
                             </div>
