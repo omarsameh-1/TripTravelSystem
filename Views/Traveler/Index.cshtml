@@ -6,14 +6,17 @@
 }
 
 <hr />
+
 @foreach (var item in Model)
 {
-    <div class="container mt-5 mb-5">
+    <div class="container mt-5 mb-5" >
         <div class="row d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <div class="card">
+                <div class="card">    
                     <div class="d-flex justify-content-between p-2 px-3">
+                        
                         <div class="d-flex flex-row align-items-center">
+                            
                             <img src="@Url.Content(item.User.photo)" width="50"
                                  class="rounded-circle">
                             <div class="d-flex flex-column ml-2">
@@ -28,6 +31,9 @@
 
                             @Html.DisplayFor(modelItem => item.tripDescription)
                             <ul>
+                                <li>
+                                   <u><i>Agency Name : @Html.DisplayFor(modelItem => item.User.firstName)</i></u>
+                                </li>
                                 <li>
                                     <u><i>Place : @Html.DisplayFor(modelItem => item.tripTitle)</i></u>
                                 </li>
@@ -54,7 +60,7 @@
                                         var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                                         if (v != null)
                                         {
-                                        @Html.ActionLink(" ", "Like", new { userid = v.userID, postid = item.postID, numlike = item.numberOfLikes + 1 }, new { @class = "far fa-thumbs-up" })
+                                            @Html.ActionLink(" ", "Like", new { userid = v.userID, postid = item.postID, numlike = item.numberOfLikes }, new { @class = "far fa-thumbs-up" })
                                         }
                                     }
                                 </i>
@@ -65,7 +71,7 @@
                                         var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                                         if (v != null)
                                         {
-                                        @Html.ActionLink(" ", "DisLike", new { userid = v.userID, postid = item.postID, numlike = item.numberOfDisLikes + 1 }, new { @class = "far fa-thumbs-down" })
+                                            @Html.ActionLink(" ", "DisLike", new { userid = v.userID, postid = item.postID, numlike = item.numberOfDisLikes }, new { @class = "far fa-thumbs-down" })
                                         }
                                     }
                                 </i>
@@ -76,7 +82,7 @@
                                         var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                                         if (v != null)
                                         {
-                                        @Html.ActionLink(" ", "Save", new { userid = v.userID, postid = item.postID }, new { @class = "far fa-bookmark" })
+                                            @Html.ActionLink(" ", "Save", new { userid = v.userID, postid = item.postID }, new { @class = "far fa-bookmark" })
                                         }
                                     }
                                 </i>
@@ -84,14 +90,12 @@
                         </div>
                         <hr>
                     </div>
+ 
+                      
                 </div>
             </div>
         </div>
     </div>
 
 }
-
-
-
-
 

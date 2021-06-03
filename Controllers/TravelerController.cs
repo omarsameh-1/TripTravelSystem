@@ -17,10 +17,22 @@ namespace TripTravelSystem.Controllers
         private TripsTravel_DBEntities db = new TripsTravel_DBEntities();
 
         // GET: Traveler
-        public ActionResult Index()
+        public ActionResult Index(string searchBy,string search)
         {
             var posts = db.Posts.Include(p=>p.User);
-            return View(posts.ToList());
+            if (searchBy == "Price" )
+            {
+                return View(posts.Where(a => a.tripPrice == search|| search==null).ToList());
+            }
+            else if (searchBy == "Date" )
+            {
+                DateTime Date = Convert.ToDateTime(search);
+                return View(posts.Where(a => a.tripDate.Equals(Date) || search == null).ToList()); ;
+            }
+            else
+            {
+                return View(posts.Where(a => a.User.firstName.StartsWith(search)|| search == null).ToList());
+            }
         }
 
         // save post
@@ -74,42 +86,110 @@ namespace TripTravelSystem.Controllers
         }
 
         [Authorize(Roles = "Traveler")]
-        public ActionResult Like(int userid, int postid, int numlike)
+        public ActionResult Like(int userid, int postid, int numlike, [Bind(Include = "USERid,POSTid,isLike")] LikeDislike like)
         {
             Post posts = db.Posts.Find(postid);
             if (ModelState.IsValid)
             {
-                
-                    posts.numberOfLikes = numlike;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
+                {
+                    var v = dc.LikeDislikes.Where(a => (a.USERid == userid) && (a.POSTid == postid)).FirstOrDefault();
+                    //var S = dc.LikeDislikes.Where(a => (a.USERid == userid) && (a.POSTid == postid) && a.isLike == "false").FirstOrDefault();
+                    if (v != null && v.isLike == "false")
+                    {
+                        LikeDislike liked = db.LikeDislikes.Find(userid, postid);
+                        posts.numberOfDisLikes--;
+                        db.LikeDislikes.Remove(liked);
+                        db.SaveChanges();
+                        posts.numberOfLikes = numlike + 1;
+                        db.LikeDislikes.Add(like);
+                        like.isLike = "true";
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else if (v == null)
+                    {
+                        posts.numberOfLikes = numlike+1;
+                        db.LikeDislikes.Add(like);
+                        like.isLike = "true";
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    } 
+                    else if (v != null && v.isLike == "true")
+                    {
+                        LikeDislike liked = db.LikeDislikes.Find(userid, postid);
+                        if (liked != null)
+                        {
+                            posts.numberOfLikes--;
+                            db.LikeDislikes.Remove(liked);
+                            db.SaveChanges();
+                        }
+                        return RedirectToAction("Index");
+                    }
+                   
+                }
             }
 
-
+            ViewBag.POSTid = postid;
+            ViewBag.USERid = userid;
             return View(posts);
         }
 
         [Authorize(Roles = "Traveler")]
-        public ActionResult DisLike(int userid, int postid, int numlike)
+        public ActionResult DisLike(int userid, int postid, int numlike, [Bind(Include = "USERid,POSTid,isLike")] LikeDislike Dislike)
         {
             Post posts = db.Posts.Find(postid);
             if (ModelState.IsValid)
             {
-                try
+                using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
                 {
-                    posts.numberOfDisLikes = numlike;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var v = dc.LikeDislikes.Where(a => (a.USERid == userid) && (a.POSTid == postid)).FirstOrDefault();
+                    //var S = dc.LikeDislikes.Where(a => (a.USERid == userid) && (a.POSTid == postid) && a.isLike == "false").FirstOrDefault();
+                    if (v != null && v.isLike == "true")
+                    {
+                        LikeDislike Disliked = db.LikeDislikes.Find(userid, postid);
+                        posts.numberOfLikes--;
+                        db.LikeDislikes.Remove(Disliked);
+                        db.SaveChanges();
+                        posts.numberOfDisLikes = numlike + 1;
+                        db.LikeDislikes.Add(Dislike);
+                        Dislike.isLike = "false";
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else if (v == null)
+                    {
+                        posts.numberOfDisLikes = numlike + 1;
+                        db.LikeDislikes.Add(Dislike);
+                        Dislike.isLike = "false";
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else if (v != null && v.isLike == "false")
+                    {
+                        LikeDislike Disliked = db.LikeDislikes.Find(userid, postid);
+                        if (Disliked != null)
+                        {
+                            db.LikeDislikes.Remove(Disliked);
+                            posts.numberOfDisLikes--;
+                            db.SaveChanges();
+                        }
+                        return RedirectToAction("Index");
+                    }
 
-                }
-                catch
-                {
-
-                    return Content("<script language='javascript' type='text/javascript' >  alert('It is already liked!');  </script>");
-                    
                 }
             }
+            ViewBag.POSTid = postid;
+            ViewBag.USERid = userid;
             return View(posts);
         }
+
+
+       /* public ActionResult MakeQuestion(int userid,[Bind(Include = "UID,question,questionDate")] Question question)
+        {
+            
+        }*/
+
+
     }
 }
