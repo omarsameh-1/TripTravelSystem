@@ -7,7 +7,6 @@ using System.Web;
 using System.Net;
 using System.Web.Mvc;
 using TripTravelSystem.Models;
-using System.Web.Optimization;
 
 namespace TripTravelSystem.Controllers
 {
@@ -183,12 +182,45 @@ namespace TripTravelSystem.Controllers
             ViewBag.USERid = userid;
             return View(posts);
         }
-
-
-       /* public ActionResult MakeQuestion(int userid,[Bind(Include = "UID,question,questionDate")] Question question)
+        [HttpGet]
+        public ActionResult MakeQuestion()
         {
+            ViewBag.agencyID = new SelectList(db.Users.Where(a=>a.roleTypeID==3), "userID", "firstName");
+            //ViewBag.UID = new SelectList(db.Users.Where(a => a.userID==userId), "userID", "firstName");
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MakeQuestion([Bind(Include = "UID,question1,questionDate,agencyID")] Question question)
+        {
+            /*using(TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
+            {
+                var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                if (v != null)
+                { 
+                    ViewBag.UID = new SelectList(db.Users.Where(a => a.userID == v.userID), "userID", "firstName");
+                } 
+            }*/
             
-        }*/
+            ViewBag.agencyID = new SelectList(db.Users.Where(a => a.roleTypeID == 3), "userID", "firstName");
+            if (ModelState.IsValid)
+            {
+                using(TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
+            {
+                    var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                    if (v != null)
+                    {
+                        question.UID = v.userID;
+                    } 
+                }
+                db.Questions.Add(question);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
+            return View(question);
+        }
 
 
     }

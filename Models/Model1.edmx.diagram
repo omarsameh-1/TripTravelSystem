@@ -8,7 +8,6 @@
         <EntityTypeShape EntityType="TripsTravel_DBModel.LikeDislike" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TripsTravel_DBModel.Post" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="TripsTravel_DBModel.PostsRequest" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TripsTravel_DBModel.Question" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TripsTravel_DBModel.RoleType" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="TripsTravel_DBModel.SavedPost" Width="1.5" PointX="7.5" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TripsTravel_DBModel.User" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
@@ -18,10 +17,11 @@
         <AssociationConnector Association="TripsTravel_DBModel.FK_PostsRequests_Posts" ManuallyRouted="false" />
         <AssociationConnector Association="TripsTravel_DBModel.FK_SavedPosts_Posts" ManuallyRouted="false" />
         <AssociationConnector Association="TripsTravel_DBModel.FK_PostsRequests_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions2_Users" ManuallyRouted="false" />
         <AssociationConnector Association="TripsTravel_DBModel.FK_dbo_Users_dbo_RoleType_roleID" ManuallyRouted="false" />
         <AssociationConnector Association="TripsTravel_DBModel.FK_SavedPosts_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TripsTravel_DBModel.Question" Width="1.5" PointX="5.25" PointY="2.25" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions_Users" />
+        <AssociationConnector Association="TripsTravel_DBModel.FK_Questions2_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

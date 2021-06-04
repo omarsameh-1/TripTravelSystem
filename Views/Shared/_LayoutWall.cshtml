@@ -42,21 +42,19 @@
 
                             <li class="nav-item active">@Html.ActionLink("Home", "Index", "Traveler", new { area = "" }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
 
-
-                            {
                                 var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                                 if (v != null)
                                 {
 
                                     <li class="nav-item">@Html.ActionLink("Saves", "showSaves", "Traveler", new { userid = v.userID }, new { @class = "nav-link" })</li>
                                 }
-                            }
-                        }
+                         }
+                     }
 
-                    }
-                }
+                  }
+               
             </ul>
-            }
+            
             <!--SIGN UP & LOGIN-->
             <div class="my-2 my-lg-0">
                 <!--FILTER-->
@@ -128,6 +126,19 @@
     </div>
     <hr />
     <footer>
+        @using (TripsTravel_DBEntities dc = new TripsTravel_DBEntities())
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Traveler"))
+                {
+                    <div>
+                        @Html.ActionLink("Make Question", "MakeQuestion",new { area=""},new {@class= "btn btn-outline-success" })
+                    </div>
+                }
+            }
+
+        }
         <p>&copy; @DateTime.Now.Year - Trips and Travel System</p>
     </footer>
 

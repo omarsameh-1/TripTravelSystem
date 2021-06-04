@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TripsTravel_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TripsTravel_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="LikeDislike">
           <Key>
             <PropertyRef Name="USERid" />
@@ -42,9 +42,9 @@
           <Key>
             <PropertyRef Name="qID" />
           </Key>
-          <Property Name="qID" Type="int" Nullable="false" />
+          <Property Name="qID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="question" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="answer" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="answer" Type="nvarchar" MaxLength="50" />
           <Property Name="questionDate" Type="date" Nullable="false" />
           <Property Name="UID" Type="int" Nullable="false" />
           <Property Name="agencyID" Type="int" Nullable="false" />
@@ -260,8 +260,7 @@
             <End Role="SavedPosts" EntitySet="SavedPosts" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TripsTravel_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -306,19 +305,6 @@
           <NavigationProperty Name="Post" Relationship="Self.FK_PostsRequests_Posts" FromRole="PostsRequests" ToRole="Posts" />
           <NavigationProperty Name="User" Relationship="Self.FK_PostsRequests_Users" FromRole="PostsRequests" ToRole="Users" />
         </EntityType>
-        <EntityType Name="Question">
-          <Key>
-            <PropertyRef Name="qID" />
-          </Key>
-          <Property Name="qID" Type="Int32" Nullable="false" />
-          <Property Name="question1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="questionDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="UID" Type="Int32" Nullable="false" />
-          <Property Name="agencyID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Questions_Users" FromRole="Questions" ToRole="Users" />
-          <NavigationProperty Name="User1" Relationship="Self.FK_Questions2_Users" FromRole="Questions" ToRole="Users" />
-        </EntityType>
         <EntityType Name="RoleType">
           <Key>
             <PropertyRef Name="roleID" />
@@ -354,10 +340,10 @@
           <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_Users" FromRole="Users" ToRole="LikeDislike" />
           <NavigationProperty Name="Posts" Relationship="Self.FK_Posts_Users" FromRole="Users" ToRole="Posts" />
           <NavigationProperty Name="PostsRequests" Relationship="Self.FK_PostsRequests_Users" FromRole="Users" ToRole="PostsRequests" />
-          <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Users" FromRole="Users" ToRole="Questions" />
-          <NavigationProperty Name="Questions1" Relationship="Self.FK_Questions2_Users" FromRole="Users" ToRole="Questions" />
           <NavigationProperty Name="RoleType" Relationship="Self.FK_dbo_Users_dbo_RoleType_roleID" FromRole="Users" ToRole="RoleType" />
           <NavigationProperty Name="SavedPosts" Relationship="Self.FK_SavedPosts_Users" FromRole="Users" ToRole="SavedPosts" />
+          <NavigationProperty Name="Questions" Relationship="TripsTravel_DBModel.FK_Questions_Users" FromRole="User" ToRole="Question" />
+          <NavigationProperty Name="Questions1" Relationship="TripsTravel_DBModel.FK_Questions2_Users" FromRole="User" ToRole="Question" />
         </EntityType>
         <Association Name="FK_LikeDislike_Posts">
           <End Role="Posts" Type="Self.Post" Multiplicity="1" />
@@ -437,32 +423,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Questions_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="userID" />
-            </Principal>
-            <Dependent Role="Questions">
-              <PropertyRef Name="UID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Questions2_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Questions" Type="Self.Question" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="userID" />
-            </Principal>
-            <Dependent Role="Questions">
-              <PropertyRef Name="agencyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_Users_dbo_RoleType_roleID">
           <End Role="RoleType" Type="Self.RoleType" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -495,7 +455,6 @@
           <EntitySet Name="LikeDislikes" EntityType="Self.LikeDislike" />
           <EntitySet Name="Posts" EntityType="Self.Post" />
           <EntitySet Name="PostsRequests" EntityType="Self.PostsRequest" />
-          <EntitySet Name="Questions" EntityType="Self.Question" />
           <EntitySet Name="RoleTypes" EntityType="Self.RoleType" />
           <EntitySet Name="SavedPosts" EntityType="Self.SavedPost" />
           <EntitySet Name="Users" EntityType="Self.User" />
@@ -523,14 +482,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="PostsRequests" EntitySet="PostsRequests" />
           </AssociationSet>
-          <AssociationSet Name="FK_Questions_Users" Association="Self.FK_Questions_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Questions" EntitySet="Questions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Questions2_Users" Association="Self.FK_Questions2_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Questions" EntitySet="Questions" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_Users_dbo_RoleType_roleID" Association="Self.FK_dbo_Users_dbo_RoleType_roleID">
             <End Role="RoleType" EntitySet="RoleTypes" />
             <End Role="Users" EntitySet="Users" />
@@ -539,7 +490,55 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="SavedPosts" EntitySet="SavedPosts" />
           </AssociationSet>
+          <EntitySet Name="Questions" EntityType="TripsTravel_DBModel.Question" />
+          <AssociationSet Name="FK_Questions_Users" Association="TripsTravel_DBModel.FK_Questions_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Questions2_Users" Association="TripsTravel_DBModel.FK_Questions2_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="qID" />
+          </Key>
+          <Property Name="qID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="answer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="questionDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="agencyID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="TripsTravel_DBModel.FK_Questions_Users" FromRole="Question" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="TripsTravel_DBModel.FK_Questions2_Users" FromRole="Question" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Questions_Users">
+          <End Type="TripsTravel_DBModel.User" Role="User" Multiplicity="1" />
+          <End Type="TripsTravel_DBModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Questions2_Users">
+          <End Type="TripsTravel_DBModel.User" Role="User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="TripsTravel_DBModel.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="agencyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -580,18 +579,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Questions">
-            <EntityTypeMapping TypeName="TripsTravel_DBModel.Question">
-              <MappingFragment StoreEntitySet="Questions">
-                <ScalarProperty Name="qID" ColumnName="qID" />
-                <ScalarProperty Name="question1" ColumnName="question" />
-                <ScalarProperty Name="answer" ColumnName="answer" />
-                <ScalarProperty Name="questionDate" ColumnName="questionDate" />
-                <ScalarProperty Name="UID" ColumnName="UID" />
-                <ScalarProperty Name="agencyID" ColumnName="agencyID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RoleTypes">
             <EntityTypeMapping TypeName="TripsTravel_DBModel.RoleType">
               <MappingFragment StoreEntitySet="RoleType">
@@ -621,6 +608,18 @@
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="isEmailVerified" ColumnName="isEmailVerified" />
                 <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="TripsTravel_DBModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="agencyID" ColumnName="agencyID" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="questionDate" ColumnName="questionDate" />
+                <ScalarProperty Name="answer" ColumnName="answer" />
+                <ScalarProperty Name="question1" ColumnName="question" />
+                <ScalarProperty Name="qID" ColumnName="qID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

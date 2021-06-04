@@ -20,9 +20,9 @@ namespace TripTravelSystem.Models
             this.LikeDislikes = new HashSet<LikeDislike>();
             this.Posts = new HashSet<Post>();
             this.PostsRequests = new HashSet<PostsRequest>();
+            this.SavedPosts = new HashSet<SavedPost>();
             this.Questions = new HashSet<Question>();
             this.Questions1 = new HashSet<Question>();
-            this.SavedPosts = new HashSet<SavedPost>();
         }
     
         public int userID { get; set; }
@@ -41,12 +41,12 @@ namespace TripTravelSystem.Models
         public virtual ICollection<Post> Posts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PostsRequest> PostsRequests { get; set; }
+        public virtual RoleType RoleType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SavedPost> SavedPosts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions1 { get; set; }
-        public virtual RoleType RoleType { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SavedPost> SavedPosts { get; set; }
     }
 }

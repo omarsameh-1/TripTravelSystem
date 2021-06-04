@@ -28,9 +28,9 @@ namespace TripTravelSystem.Models
         public virtual DbSet<LikeDislike> LikeDislikes { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostsRequest> PostsRequests { get; set; }
-        public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<RoleType> RoleTypes { get; set; }
         public virtual DbSet<SavedPost> SavedPosts { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
     }
 }
