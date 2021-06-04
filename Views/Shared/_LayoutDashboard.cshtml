@@ -39,16 +39,15 @@
                         if (User.IsInRole("Admin"))
                         {
 
-                            <li class="nav-item active">@Html.ActionLink("Profile", "", "", new { area = "" }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
 
                             var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                             if (v != null)
                             {
-
+                                <li class="nav-item active">@Html.ActionLink("Profile", "index", "Admin", new { userid = v.userID  }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
                                 <li class="nav-item">@Html.ActionLink("Users page", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
                                 <li class="nav-item">@Html.ActionLink("Posts page", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
                                 <li class="nav-item">@Html.ActionLink("Posts Request", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
-                                
+
                             }
                         }
                     }
