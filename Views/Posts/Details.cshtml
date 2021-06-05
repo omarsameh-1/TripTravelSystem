@@ -1,0 +1,91 @@
+﻿@model TripTravelSystem.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tripTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tripTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tripDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tripDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tripImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tripImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tripDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tripDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tripPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tripPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.postDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.postDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.numberOfLikes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numberOfLikes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.numberOfDisLikes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numberOfDisLikes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.firstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.firstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.postID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

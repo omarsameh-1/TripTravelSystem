@@ -128,6 +128,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AgencyController.cs" />
     <Compile Include="Controllers\AuthonticationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TravelerController.cs" />
@@ -188,6 +190,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\styleFactory.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -234,6 +237,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\download.jpg" />
+    <Content Include="Images\download5.jpg" />
+    <Content Include="Images\gg.jpg" />
+    <Content Include="Images\images.jpg" />
+    <Content Include="Images\images1.jpg" />
+    <Content Include="Images\rr.jpg" />
+    <Content Include="Images\tt.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -265,6 +275,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsFactory.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\notify.min.js" />
     <Content Include="Scripts\wall.js" />
@@ -291,10 +302,39 @@
     <Content Include="Views\Authontication\RegisterPopUp.cshtml" />
     <Content Include="Views\Authontication\VerifyAccount.cshtml" />
     <Content Include="Views\Traveler\MakeQuestion.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Admin\ShowUsers.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Admin\ShowPosts.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\DeletePost.cshtml" />
+    <Content Include="Views\Agency\Index.cshtml" />
+    <Content Include="Views\Agency\Create.cshtml" />
+    <Content Include="Views\Agency\MyPosts.cshtml" />
+    <Content Include="Views\Agency\EditProfile.cshtml" />
+    <Content Include="Views\Agency\Edit.cshtml" />
+    <Content Include="Views\Agency\Delete.cshtml" />
+    <Content Include="Views\Questions\Create.cshtml" />
+    <Content Include="Views\Questions\Delete.cshtml" />
+    <Content Include="Views\Questions\Details.cshtml" />
+    <Content Include="Views\Questions\Edit.cshtml" />
+    <Content Include="Views\Questions\Index.cshtml" />
+    <Content Include="Views\Agency\showQuestions.cshtml" />
+    <Content Include="Views\Agency\AddAnswer.cshtml" />
+    <Content Include="Views\Traveler\ShowAnswer.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

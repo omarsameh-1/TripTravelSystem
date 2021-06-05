@@ -25,7 +25,7 @@ namespace TripTravelSystem.Models
         public string email { get; set; }
 
         [Required(ErrorMessage = "Image is Required.")]
-        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
+       // [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
         public string photo { get; set; }
 
         [Range(1, 3)]
@@ -55,5 +55,6 @@ namespace TripTravelSystem.Models
     public partial class User
     {
         public string ConfirmPassword { get; set; }
+        public HttpPostedFileBase ImageFile { get; set; }
     }
 }

@@ -1,0 +1,58 @@
+﻿@model TripTravelSystem.Models.User
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutFactory.cshtml";
+}
+@Scripts.Render("~/bundles/bootstrap")
+
+<h2>Index</h2>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.firstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.firstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.photo)
+        </dt>
+
+        <dd>
+            <img src="@Url.Content(Model.photo)">
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleType.roleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoleType.roleName)
+        </dd>
+        <dd>
+            @Html.ActionLink("Edit", "EditProfile", new { id = Model.userID},new { @class = "btn btn-warning" }) |
+        </dd>
+
+    </dl>
+</div>

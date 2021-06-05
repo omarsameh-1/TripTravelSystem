@@ -11,7 +11,6 @@ namespace TripTravelSystem.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Post
     {
@@ -25,12 +24,10 @@ namespace TripTravelSystem.Models
     
         public int postID { get; set; }
         public string tripTitle { get; set; }
-        [DataType(DataType.Date)]
         public System.DateTime tripDate { get; set; }
         public string tripImage { get; set; }
         public string tripDescription { get; set; }
         public string tripPrice { get; set; }
-        [DataType(DataType.Date)]
         public System.DateTime postDate { get; set; }
         public int uID { get; set; }
         public Nullable<int> numberOfLikes { get; set; }

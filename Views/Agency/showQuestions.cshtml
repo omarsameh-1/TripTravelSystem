@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TripTravelSystem.Models.Question>
+
+@{
+    ViewBag.Title = "showQuestions";
+    Layout = "~/Views/Shared/_LayoutFactory.cshtml";
+}
+@Scripts.Render("~/bundles/bootstrap")
+<h2>showQuestions</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.question1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.questionDate)
+        </th>
+        <th>
+            who asked the question
+        </th>
+        <th>
+            TO whom
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.question1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.answer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.questionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.firstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User1.firstName)
+            </td>
+            <td>
+                @Html.ActionLink("Answer", "AddAnswer", new { id = item.qID },new {@class= "btn btn-success" }) |
+
+            </td>
+        </tr>
+    }
+
+</table>

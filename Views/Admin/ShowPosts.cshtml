@@ -1,0 +1,79 @@
+﻿@model IEnumerable<TripTravelSystem.Models.Post>
+
+@{
+    ViewBag.Title = "ShowPosts";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+<h2>ShowPosts</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tripTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tripDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tripImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tripDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tripPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.postDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numberOfLikes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numberOfDisLikes)
+        </th>
+        <th>
+            <p>User that created the post</p>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.tripTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tripDate)
+            </td>
+            <td>
+                <img src="@Url.Content(item.tripImage)" style="width:150px; height:150px; ">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tripDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tripPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.postDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.numberOfLikes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.numberOfDisLikes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.firstName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.postID }, new { @class = "btn btn-outline-warning" })
+                @Html.ActionLink("Delete", "DeletePost", new { id = item.postID }, new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

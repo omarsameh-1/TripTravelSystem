@@ -221,7 +221,18 @@ namespace TripTravelSystem.Controllers
             
             return View(question);
         }
+        [Authorize(Roles ="Traveler")]
+        public ActionResult ShowAnswer(int ? id)
+        {
+            var v = db.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+            if (v != null)
+            {
+                id = v.userID;
+            }
+            var q = db.Questions.Where(a => a.UID == id);
 
+            return View(q.ToList());
+        }
 
     }
 }

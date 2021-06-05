@@ -18,7 +18,6 @@ namespace TripTravelSystem.Models
         public int POSTid { get; set; }
         public string isLike { get; set; }
     
-
         public virtual Post Post { get; set; }
         public virtual User User { get; set; }
     }

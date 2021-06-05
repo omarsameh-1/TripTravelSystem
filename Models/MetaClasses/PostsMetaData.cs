@@ -20,7 +20,7 @@ namespace TripTravelSystem.Models
 
         [Display(Name = "Trip Image")]
         [Required(ErrorMessage = "Trip Image is Required.")]
-        [RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
+        //[RegularExpression(@"([a-zA-Z0-9\s_\\.\-:])+(.png|.jpg|.gif)$", ErrorMessage = "Only Image files allowed.")]
         public string tripImage { get; set; }
 
         [Display(Name = "Trip Description")]
@@ -44,6 +44,7 @@ namespace TripTravelSystem.Models
     [MetadataType(typeof(PostsMetaData))]
     public partial class Post
     {
+        public HttpPostedFileBase Imagepost { get; set; }
 
     }
 }

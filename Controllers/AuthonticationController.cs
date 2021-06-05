@@ -165,21 +165,23 @@ namespace TripTravelSystem.Controllers
                         else
                         {   
                             //to direct every page to the right user
-                            /* 
+                             
                             if (v.roleTypeID == 3)
                             {
-                                return RedirectToAction("Index", "TravelAgency");
+                                return Redirect("/Agency/Index");
+                                //return RedirectToAction("Index", "Agency");
                             }
                             else if (v.roleTypeID == 1)
                             {
-                                return RedirectToAction("Index", "Admin");
+                                return Redirect("/Admin/Index");
+                                //return RedirectToAction("Index", "Admin");
                             }
                             else
                             {
                                 return RedirectToAction("Index", "Traveler");
-                            }*/
+                            }
 
-                            return RedirectToAction("Index", "Traveler");
+                            //return RedirectToAction("Index", "Traveler");
                         }
                     }
                     else

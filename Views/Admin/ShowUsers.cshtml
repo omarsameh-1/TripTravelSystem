@@ -1,0 +1,73 @@
+﻿@model IEnumerable<TripTravelSystem.Models.User>
+
+@{
+    ViewBag.Title = "ShowUsers";
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+}
+
+
+@Scripts.Render("~/bundles/bootstrap")
+
+<h2>All Uaers</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { area = "" }, new { @class = "btn btn-outline-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.firstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.photo)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.RoleType.roleName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.firstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                <img src="@Url.Content(item.photo)">
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.RoleType.roleName)
+            </td>
+            <td>
+                @using TripTravelSystem.Models
+                @using (TripsTravel_DBEntities db = new TripsTravel_DBEntities())
+                {
+                    var v = db.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
+                    if (v != null)
+                    {
+                     
+                        @Html.ActionLink("Delete", "Delete", new { id = item.userID },new { @class = "btn btn-outline-danger" })
+                    }
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>
+

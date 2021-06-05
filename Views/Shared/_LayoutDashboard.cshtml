@@ -23,7 +23,7 @@
 
     <!--Start Navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Wall Page</a>
+        <a class="navbar-brand" href="#">Admin Page</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -43,9 +43,9 @@
                             var v = dc.Users.Where(a => a.email == User.Identity.Name).FirstOrDefault();
                             if (v != null)
                             {
-                                <li class="nav-item active">@Html.ActionLink("Profile", "index", "Admin", new { userid = v.userID  }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
-                                <li class="nav-item">@Html.ActionLink("Users page", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
-                                <li class="nav-item">@Html.ActionLink("Posts page", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
+                                <li class="nav-item active">@Html.ActionLink("Profile", "Index", "Admin", new { userid = v.userID }, new { @class = "nav-link" }) <span class="sr-only">(current)</span></li>
+                                <li class="nav-item">@Html.ActionLink("Users page", "ShowUsers", "Admin", new { userid = v.userID }, new { @class = "nav-link" })</li>
+                                <li class="nav-item">@Html.ActionLink("Posts page", "ShowPosts", "Admin", new { userid = v.userID }, new { @class = "nav-link" })</li>
                                 <li class="nav-item">@Html.ActionLink("Posts Request", "", "", new { userid = v.userID }, new { @class = "nav-link" })</li>
 
                             }
@@ -58,7 +58,7 @@
 
             <!--SIGN UP & LOGIN-->
             <div class="my-2 my-lg-0">
-               
+
                 <!--SIGN-->
                 @if (Request.IsAuthenticated)
                 {
@@ -72,9 +72,9 @@
                         Welcome @HttpContext.Current.User.Identity.Name
                     </div>
                 }
-                
-                
-                    @*<div class="d-inline">
+
+
+                @*<div class="d-inline">
                         <a class="btn btn-outline-info btn-round" href="@Url.Action("RegisterPopUp","Authontication")" type="button" data-toggle="modal" data-target="#SignUpModal">Register</a>
                     </div>
                     <!--Start Model-->
@@ -126,6 +126,24 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+        function saveForm() {
+            var data = $("#Create").serialize();
+            $.ajax({
+                type: "post",
+                data: data,
+                url: "/Admin/Create",
+                success: function (result) {
+
+                }
+            });
+        }
+
+
+
+    </script>
 
 </body>
 </html>

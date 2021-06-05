@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
 }
+@Scripts.Render("~/bundles/bootstrap")
 
 <h2>Index</h2>
 
@@ -40,33 +41,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.photo)
+            <img src="@Url.Content(Model.photo)">
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.password)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.password)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.isEmailVerified)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isEmailVerified)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ActivationCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ActivationCode)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.RoleType.roleName)
         </dt>
